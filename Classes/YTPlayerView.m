@@ -66,10 +66,54 @@ NSString static *const kYTPlayerSyndicationRegexPattern = @"^https://tpc.googles
 
 @property (nonatomic, strong) NSURL *originURL;
 @property (nonatomic, weak) UIView *initialLoadingView;
-
+@property (nonatomic, strong)NSString *embedHTMLTemplate;
 @end
 
 @implementation YTPlayerView
+
+- (instancetype)initWithFrame:(CGRect)frame{
+    if (self = [super initWithFrame:frame]) {
+         [self initUI];
+    }
+    return self;
+}
+
+- (instancetype)initWithCoder:(NSCoder *)aDecoder{
+    if (self = [super initWithCoder:aDecoder]) {
+        [self initUI];
+        [self createHTMLTemplate];
+    }
+    return self;
+}
+
+- (void)initUI{
+      _webView = [self createNewWebView];
+      [self addSubview:self.webView];
+}
+
+- (BOOL)createHTMLTemplate{
+    NSError *error = nil;
+    NSString *path = [[NSBundle bundleForClass:[YTPlayerView class]] pathForResource:@"YTPlayerView-iframe-player"
+                                                                              ofType:@"html"
+                                                                         inDirectory:@"Assets"];
+    
+    // in case of using Swift and embedded frameworks, resources included not in main bundle,
+    // but in framework bundle
+    if (!path) {
+        path = [[[self class] frameworkBundle] pathForResource:@"YTPlayerView-iframe-player"
+                                                        ofType:@"html"
+                                                   inDirectory:@"Assets"];
+    }
+    
+   self.embedHTMLTemplate =
+    [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:&error];
+    
+    if (error) {
+        NSLog(@"Received error rendering template: %@", error);
+        return NO;
+    }
+    return true;
+}
 
 - (BOOL)loadWithVideoId:(NSString *)videoId {
   return [self loadWithVideoId:videoId playerVars:nil];
@@ -703,30 +747,30 @@ NSString static *const kYTPlayerSyndicationRegexPattern = @"^https://tpc.googles
   }
 
   // Remove the existing webView to reset any state
-  [self.webView removeFromSuperview];
-  _webView = [self createNewWebView];
-  [self addSubview:self.webView];
+//  [self.webView removeFromSuperview];
+//  _webView = [self createNewWebView];
+//  [self addSubview:self.webView];
 
-  NSError *error = nil;
-  NSString *path = [[NSBundle bundleForClass:[YTPlayerView class]] pathForResource:@"YTPlayerView-iframe-player"
-                                                   ofType:@"html"
-                                              inDirectory:@"Assets"];
-    
-  // in case of using Swift and embedded frameworks, resources included not in main bundle,
-  // but in framework bundle
-  if (!path) {
-      path = [[[self class] frameworkBundle] pathForResource:@"YTPlayerView-iframe-player"
-                                                     ofType:@"html"
-                                                inDirectory:@"Assets"];
-  }
-    
-  NSString *embedHTMLTemplate =
-      [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:&error];
-
-  if (error) {
-    NSLog(@"Received error rendering template: %@", error);
-    return NO;
-  }
+//  NSError *error = nil;
+//  NSString *path = [[NSBundle bundleForClass:[YTPlayerView class]] pathForResource:@"YTPlayerView-iframe-player"
+//                                                   ofType:@"html"
+//                                              inDirectory:@"Assets"];
+//
+//  // in case of using Swift and embedded frameworks, resources included not in main bundle,
+//  // but in framework bundle
+//  if (!path) {
+//      path = [[[self class] frameworkBundle] pathForResource:@"YTPlayerView-iframe-player"
+//                                                     ofType:@"html"
+//                                                inDirectory:@"Assets"];
+//  }
+//
+//  NSString *embedHTMLTemplate =
+//      [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:&error];
+//
+//  if (error) {
+//    NSLog(@"Received error rendering template: %@", error);
+//    return NO;
+//  }
 
   // Render the playerVars as a JSON dictionary.
   NSError *jsonRenderingError = nil;
@@ -743,7 +787,7 @@ NSString static *const kYTPlayerSyndicationRegexPattern = @"^https://tpc.googles
   NSString *playerVarsJsonString =
       [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
 
-  NSString *embedHTML = [NSString stringWithFormat:embedHTMLTemplate, playerVarsJsonString];
+  NSString *embedHTML = [NSString stringWithFormat:self.embedHTMLTemplate, playerVarsJsonString];
   [self.webView loadHTMLString:embedHTML baseURL: self.originURL];
   [self.webView setDelegate:self];
   self.webView.allowsInlineMediaPlayback = YES;
