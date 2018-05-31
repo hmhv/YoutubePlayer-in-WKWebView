@@ -74,6 +74,7 @@ NSString static *const kYTPlayerSyndicationRegexPattern = @"^https://tpc.googles
 - (instancetype)initWithFrame:(CGRect)frame{
     if (self = [super initWithFrame:frame]) {
          [self initUI];
+        [self createHTMLTemplate];
     }
     return self;
 }
