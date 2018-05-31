@@ -13,6 +13,7 @@
 // limitations under the License.
 
 #import <UIKit/UIKit.h>
+@import WebKit;
 
 @class YTPlayerView;
 
@@ -141,7 +142,7 @@ typedef NS_ENUM(NSInteger, YTPlayerError) {
 @interface YTPlayerView : UIView<UIWebViewDelegate>
 
 @property(nonatomic, strong, nullable, readonly) UIWebView *webView;
-
+@property(nonatomic, strong, readonly)WKWebView *wkWebView;
 /** A delegate to be notified on playback events. */
 @property(nonatomic, weak, nullable) id<YTPlayerViewDelegate> delegate;
 

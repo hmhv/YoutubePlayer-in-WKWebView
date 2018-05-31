@@ -62,7 +62,7 @@ NSString static *const kYTPlayerOAuthRegexPattern = @"^http(s)://accounts.google
 NSString static *const kYTPlayerStaticProxyRegexPattern = @"^https://content.googleapis.com/static/proxy.html(.*)$";
 NSString static *const kYTPlayerSyndicationRegexPattern = @"^https://tpc.googlesyndication.com/sodar/(.*).html$";
 
-@interface YTPlayerView()
+@interface YTPlayerView()<WKUIDelegate,WKNavigationDelegate>
 
 @property (nonatomic, strong) NSURL *originURL;
 @property (nonatomic, weak) UIView *initialLoadingView;
@@ -88,8 +88,10 @@ NSString static *const kYTPlayerSyndicationRegexPattern = @"^https://tpc.googles
 }
 
 - (void)initUI{
-      _webView = [self createNewWebView];
-      [self addSubview:self.webView];
+//      _webView = [self createNewWebView];
+//      [self addSubview:self.webView];
+    _wkWebView = [self createWKWebView];
+    [self addSubview:_wkWebView];
 }
 
 - (BOOL)createHTMLTemplate{
@@ -456,7 +458,21 @@ NSString static *const kYTPlayerSyndicationRegexPattern = @"^https://tpc.googles
     [self.initialLoadingView removeFromSuperview];
   }
 }
-
+#pragma mark  WKNavigationDelegate
+- (void)webView:(WKWebView *)webView didStartProvisionalNavigation:(null_unspecified WKNavigation *)navigation{
+    if ([webView.URL.host isEqual: self.originURL.host]) {
+//        return YES;
+    } else if ([webView.URL.scheme isEqual:@"ytplayer"]) {
+        [self notifyDelegateOfYouTubeCallbackUrl:webView.URL];
+        [webView stopLoading];
+    } else if ([webView.URL.scheme isEqual: @"http"] || [webView.URL.scheme isEqual:@"https"]) {
+        if ([self handleHttpNavigationToUrl:webView.URL]) {
+            [webView stopLoading];
+        }
+//        return [self handleHttpNavigationToUrl:webView.URL];
+    }
+//    return YES;
+}
 /**
  * Convert a quality value from NSString to the typed enum value.
  *
@@ -789,9 +805,11 @@ NSString static *const kYTPlayerSyndicationRegexPattern = @"^https://tpc.googles
       [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
 
   NSString *embedHTML = [NSString stringWithFormat:self.embedHTMLTemplate, playerVarsJsonString];
-  [self.webView loadHTMLString:embedHTML baseURL: self.originURL];
-  [self.webView setDelegate:self];
-  self.webView.allowsInlineMediaPlayback = YES;
+  [_wkWebView loadHTMLString:embedHTML baseURL: self.originURL];
+//  [_wkWebView setDelegate:self];
+    _wkWebView.UIDelegate = self;
+    _wkWebView.navigationDelegate = self;
+//  _wkWebView.allowsInlineMediaPlayback = YES;
   self.webView.mediaPlaybackRequiresUserAction = NO;
   
   if ([self.delegate respondsToSelector:@selector(playerViewPreferredInitialLoadingView:)]) {
@@ -897,6 +915,22 @@ NSString static *const kYTPlayerSyndicationRegexPattern = @"^https://tpc.googles
 
 - (UIWebView *)createNewWebView {
     UIWebView *webView = [[UIWebView alloc] initWithFrame:self.bounds];
+    webView.autoresizingMask = (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight);
+    webView.scrollView.scrollEnabled = NO;
+    webView.scrollView.bounces = NO;
+    
+    if ([self.delegate respondsToSelector:@selector(playerViewPreferredWebViewBackgroundColor:)]) {
+        webView.backgroundColor = [self.delegate playerViewPreferredWebViewBackgroundColor:self];
+        if (webView.backgroundColor == [UIColor clearColor]) {
+            webView.opaque = NO;
+        }
+    }
+    
+    return webView;
+}
+
+- (WKWebView *)createWKWebView {
+    WKWebView  *webView = [[WKWebView  alloc] initWithFrame:self.bounds];
     webView.autoresizingMask = (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight);
     webView.scrollView.scrollEnabled = NO;
     webView.scrollView.bounces = NO;
