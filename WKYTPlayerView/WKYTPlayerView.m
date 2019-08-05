@@ -88,7 +88,7 @@ NSString static *const kWKYTPlayerSyndicationRegexPattern = @"^https://tpc.googl
 }
 
 - (BOOL)loadWithPlaylistId:(NSString *)playlistId playerVars:(NSDictionary *)playerVars {
-    
+
     // Mutable copy because we may have been passed an immutable config dictionary.
     NSMutableDictionary *tempPlayerVars = [[NSMutableDictionary alloc] init];
     [tempPlayerVars setValue:@"playlist" forKey:@"listType"];
@@ -96,7 +96,7 @@ NSString static *const kWKYTPlayerSyndicationRegexPattern = @"^https://tpc.googl
     if (playerVars) {
         [tempPlayerVars addEntriesFromDictionary:playerVars];
     }
-    
+
     NSDictionary *playerParams = @{ @"playerVars" : tempPlayerVars };
     return [self loadWithPlayerParams:playerParams];
 }
@@ -548,7 +548,7 @@ NSString static *const kWKYTPlayerSyndicationRegexPattern = @"^https://tpc.googl
 - (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler
 {
     NSURLRequest *request = navigationAction.request;
-    
+
     if ([request.URL.host isEqual: self.originURL.host]) {
         decisionHandler(WKNavigationActionPolicyAllow);
         return;
@@ -564,7 +564,7 @@ NSString static *const kWKYTPlayerSyndicationRegexPattern = @"^https://tpc.googl
         }
         return;
     }
-    
+
     decisionHandler(WKNavigationActionPolicyAllow);
 }
 
@@ -591,7 +591,7 @@ NSString static *const kWKYTPlayerSyndicationRegexPattern = @"^https://tpc.googl
  */
 + (WKYTPlaybackQuality)playbackQualityForString:(NSString *)qualityString {
     WKYTPlaybackQuality quality = kWKYTPlaybackQualityUnknown;
-    
+
     if ([qualityString isEqualToString:kWKYTPlaybackQualitySmallQuality]) {
         quality = kWKYTPlaybackQualitySmall;
     } else if ([qualityString isEqualToString:kWKYTPlaybackQualityMediumQuality]) {
@@ -607,7 +607,7 @@ NSString static *const kWKYTPlayerSyndicationRegexPattern = @"^https://tpc.googl
     } else if ([qualityString isEqualToString:kWKYTPlaybackQualityAutoQuality]) {
         quality = kWKYTPlaybackQualityAuto;
     }
-    
+
     return quality;
 }
 
@@ -699,7 +699,7 @@ NSString static *const kWKYTPlayerSyndicationRegexPattern = @"^https://tpc.googl
  */
 - (void)notifyDelegateOfYouTubeCallbackUrl: (NSURL *) url {
     NSString *action = url.host;
-    
+
     // We know the query can only be of the format ytplayer://action?data=SOMEVALUE,
     // so we parse out the value.
     NSString *query = url.query;
@@ -707,7 +707,7 @@ NSString static *const kWKYTPlayerSyndicationRegexPattern = @"^https://tpc.googl
     if (query) {
         data = [query componentsSeparatedByString:@"="][1];
     }
-    
+
     if ([action isEqual:kWKYTPlayerCallbackOnReady]) {
         if (self.initialLoadingView) {
             [self.initialLoadingView removeFromSuperview];
@@ -718,7 +718,7 @@ NSString static *const kWKYTPlayerSyndicationRegexPattern = @"^https://tpc.googl
     } else if ([action isEqual:kWKYTPlayerCallbackOnStateChange]) {
         if ([self.delegate respondsToSelector:@selector(playerView:didChangeToState:)]) {
             WKYTPlayerState state = kWKYTPlayerStateUnknown;
-            
+
             if ([data isEqual:kWKYTPlayerStateEndedCode]) {
                 state = kWKYTPlayerStateEnded;
             } else if ([data isEqual:kWKYTPlayerStatePlayingCode]) {
@@ -732,7 +732,7 @@ NSString static *const kWKYTPlayerSyndicationRegexPattern = @"^https://tpc.googl
             } else if ([data isEqual:kWKYTPlayerStateUnstartedCode]) {
                 state = kWKYTPlayerStateUnstarted;
             }
-            
+
             [self.delegate playerView:self didChangeToState:state];
         }
     } else if ([action isEqual:kWKYTPlayerCallbackOnPlaybackQualityChange]) {
@@ -743,7 +743,7 @@ NSString static *const kWKYTPlayerSyndicationRegexPattern = @"^https://tpc.googl
     } else if ([action isEqual:kWKYTPlayerCallbackOnError]) {
         if ([self.delegate respondsToSelector:@selector(playerView:receivedError:)]) {
             WKYTPlayerError error = kWKYTPlayerErrorUnknown;
-            
+
             if ([data isEqual:kWKYTPlayerErrorInvalidParamErrorCode]) {
                 error = kWKYTPlayerErrorInvalidParam;
             } else if ([data isEqual:kWKYTPlayerErrorHTML5ErrorCode]) {
@@ -755,7 +755,7 @@ NSString static *const kWKYTPlayerSyndicationRegexPattern = @"^https://tpc.googl
                        [data isEqual:kWKYTPlayerErrorCannotFindVideoErrorCode]) {
                 error = kWKYTPlayerErrorVideoNotFound;
             }
-            
+
             [self.delegate playerView:self receivedError:error];
         }
     } else if ([action isEqualToString:kWKYTPlayerCallbackOnPlayTime]) {
@@ -767,7 +767,7 @@ NSString static *const kWKYTPlayerSyndicationRegexPattern = @"^https://tpc.googl
         if (self.initialLoadingView) {
             [self.initialLoadingView removeFromSuperview];
         }
-        
+
         if ([self.delegate respondsToSelector:@selector(playerViewIframeAPIDidFailedToLoad:)]) {
             [self.delegate playerViewIframeAPIDidFailedToLoad:self];
         }
@@ -788,7 +788,7 @@ NSString static *const kWKYTPlayerSyndicationRegexPattern = @"^https://tpc.googl
     [ytRegex firstMatchInString:url.absoluteString
                         options:0
                           range:NSMakeRange(0, [url.absoluteString length])];
-    
+
     NSRegularExpression *adRegex =
     [NSRegularExpression regularExpressionWithPattern:kWKYTPlayerAdUrlRegexPattern
                                               options:NSRegularExpressionCaseInsensitive
@@ -797,17 +797,17 @@ NSString static *const kWKYTPlayerSyndicationRegexPattern = @"^https://tpc.googl
     [adRegex firstMatchInString:url.absoluteString
                         options:0
                           range:NSMakeRange(0, [url.absoluteString length])];
-    
+
     NSRegularExpression *syndicationRegex =
     [NSRegularExpression regularExpressionWithPattern:kWKYTPlayerSyndicationRegexPattern
                                               options:NSRegularExpressionCaseInsensitive
                                                 error:&error];
-    
+
     NSTextCheckingResult *syndicationMatch =
     [syndicationRegex firstMatchInString:url.absoluteString
                                  options:0
                                    range:NSMakeRange(0, [url.absoluteString length])];
-    
+
     NSRegularExpression *oauthRegex =
     [NSRegularExpression regularExpressionWithPattern:kWKYTPlayerOAuthRegexPattern
                                               options:NSRegularExpressionCaseInsensitive
@@ -816,7 +816,7 @@ NSString static *const kWKYTPlayerSyndicationRegexPattern = @"^https://tpc.googl
     [oauthRegex firstMatchInString:url.absoluteString
                            options:0
                              range:NSMakeRange(0, [url.absoluteString length])];
-    
+
     NSRegularExpression *staticProxyRegex =
     [NSRegularExpression regularExpressionWithPattern:kWKYTPlayerStaticProxyRegexPattern
                                               options:NSRegularExpressionCaseInsensitive
@@ -825,7 +825,7 @@ NSString static *const kWKYTPlayerSyndicationRegexPattern = @"^https://tpc.googl
     [staticProxyRegex firstMatchInString:url.absoluteString
                                  options:0
                                    range:NSMakeRange(0, [url.absoluteString length])];
-    
+
     if (ytMatch || adMatch || oauthMatch || staticProxyMatch || syndicationMatch) {
         return YES;
     } else {
@@ -848,7 +848,7 @@ NSString static *const kWKYTPlayerSyndicationRegexPattern = @"^https://tpc.googl
                                       @"onReady" : @"onReady",
                                       @"onStateChange" : @"onStateChange",
                                       @"onPlaybackQualityChange" : @"onPlaybackQualityChange",
-                                      @"onError" : @"onPlayerError"
+                                      @"onError" : @"onError"
                                       };
     NSMutableDictionary *playerParams = [[NSMutableDictionary alloc] init];
     if (additionalPlayerParams) {
@@ -860,13 +860,13 @@ NSString static *const kWKYTPlayerSyndicationRegexPattern = @"^https://tpc.googl
     if (![playerParams objectForKey:@"width"]) {
         [playerParams setValue:@"100%" forKey:@"width"];
     }
-    
+
     [playerParams setValue:playerCallbacks forKey:@"events"];
-    
+
     if ([playerParams objectForKey:@"playerVars"]) {
         NSMutableDictionary *playerVars = [[NSMutableDictionary alloc] init];
         [playerVars addEntriesFromDictionary:[playerParams objectForKey:@"playerVars"]];
-        
+
         if (![playerVars objectForKey:@"origin"]) {
             self.originURL = [NSURL URLWithString:@"about:blank"];
         } else {
@@ -876,12 +876,12 @@ NSString static *const kWKYTPlayerSyndicationRegexPattern = @"^https://tpc.googl
         // This must not be empty so we can render a '{}' in the output JSON
         [playerParams setValue:[[NSDictionary alloc] init] forKey:@"playerVars"];
     }
-    
+
     // Remove the existing webView to reset any state
     [self.webView removeFromSuperview];
     _webView = [self createNewWebView];
     [self addSubview:self.webView];
-    
+
     self.webView.translatesAutoresizingMaskIntoConstraints = NO;
     NSLayoutConstraint *topConstraint = [NSLayoutConstraint constraintWithItem:self.webView
                                                                  attribute:NSLayoutAttributeTop
@@ -913,12 +913,12 @@ NSString static *const kWKYTPlayerSyndicationRegexPattern = @"^https://tpc.googl
                                                                   constant:0.0];
     NSArray *constraints = @[topConstraint, leftConstraint, rightConstraint, bottomConstraint];
     [self addConstraints:constraints];
-    
+
     NSError *error = nil;
     NSString *path = [[NSBundle bundleForClass:[WKYTPlayerView class]] pathForResource:@"YTPlayerView-iframe-player"
                                                                                 ofType:@"html"
                                                                            inDirectory:@"Assets"];
-    
+
     // in case of using Swift and embedded frameworks, resources included not in main bundle,
     // but in framework bundle
     if (!path) {
@@ -926,15 +926,15 @@ NSString static *const kWKYTPlayerSyndicationRegexPattern = @"^https://tpc.googl
                                                         ofType:@"html"
                                                    inDirectory:@"Assets"];
     }
-    
+
     NSString *embedHTMLTemplate =
     [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:&error];
-    
+
     if (error) {
         NSLog(@"Received error rendering template: %@", error);
         return NO;
     }
-    
+
     // Render the playerVars as a JSON dictionary.
     NSError *jsonRenderingError = nil;
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:playerParams
@@ -946,15 +946,15 @@ NSString static *const kWKYTPlayerSyndicationRegexPattern = @"^https://tpc.googl
               jsonRenderingError);
         return NO;
     }
-    
+
     NSString *playerVarsJsonString =
     [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-    
+
     NSString *embedHTML = [NSString stringWithFormat:embedHTMLTemplate, playerVarsJsonString];
     [self.webView loadHTMLString:embedHTML baseURL: self.originURL];
     self.webView.navigationDelegate = self;
     self.webView.UIDelegate = self;
-    
+
     if ([self.delegate respondsToSelector:@selector(playerViewPreferredInitialLoadingView:)]) {
         UIView *initialLoadingView = [self.delegate playerViewPreferredInitialLoadingView:self];
         if (initialLoadingView) {
@@ -964,7 +964,7 @@ NSString static *const kWKYTPlayerSyndicationRegexPattern = @"^https://tpc.googl
             self.initialLoadingView = initialLoadingView;
         }
     }
-    
+
     return YES;
 }
 
@@ -1020,11 +1020,11 @@ NSString static *const kWKYTPlayerSyndicationRegexPattern = @"^https://tpc.googl
  */
 - (NSString *)stringFromVideoIdArray:(NSArray *)videoIds {
     NSMutableArray *formattedVideoIds = [[NSMutableArray alloc] init];
-    
+
     for (id unformattedId in videoIds) {
         [formattedVideoIds addObject:[NSString stringWithFormat:@"'%@'", unformattedId]];
     }
-    
+
     return [NSString stringWithFormat:@"[%@]", [formattedVideoIds componentsJoinedByString:@", "]];
 }
 
@@ -1058,33 +1058,33 @@ NSString static *const kWKYTPlayerSyndicationRegexPattern = @"^https://tpc.googl
 }
 
 - (WKWebView *)createNewWebView {
-    
+
     // WKWebView equivalent for UIWebView's scalesPageToFit
     // http://stackoverflow.com/questions/26295277/wkwebview-equivalent-for-uiwebviews-scalespagetofit
     NSString *jScript = @"var meta = document.createElement('meta'); meta.setAttribute('name', 'viewport'); meta.setAttribute('content', 'width=device-width'); document.getElementsByTagName('head')[0].appendChild(meta);";
-    
+
     WKUserScript *wkUScript = [[WKUserScript alloc] initWithSource:jScript injectionTime:WKUserScriptInjectionTimeAtDocumentEnd forMainFrameOnly:YES];
     WKUserContentController *wkUController = [[WKUserContentController alloc] init];
     [wkUController addUserScript:wkUScript];
-    
+
     WKWebViewConfiguration *configuration = [WKWebViewConfiguration new];
-    
+
     configuration.userContentController = wkUController;
-    
+
     configuration.allowsInlineMediaPlayback = YES;
     configuration.mediaPlaybackRequiresUserAction = NO;
-    
+
     WKWebView *webView = [[WKWebView alloc] initWithFrame:self.bounds configuration:configuration];
     webView.scrollView.scrollEnabled = NO;
     webView.scrollView.bounces = NO;
-    
+
     if ([self.delegate respondsToSelector:@selector(playerViewPreferredWebViewBackgroundColor:)]) {
         webView.backgroundColor = [self.delegate playerViewPreferredWebViewBackgroundColor:self];
         if (webView.backgroundColor == [UIColor clearColor]) {
             webView.opaque = NO;
         }
     }
-    
+
     return webView;
 }
 
