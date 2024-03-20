@@ -1,4 +1,4 @@
-// swift-tools-version:5.3
+// swift-tools-version:5.9
 import PackageDescription
 
 let package = Package(
@@ -16,6 +16,7 @@ let package = Package(
             //exclude: ["youtube-player-ios-example", "YoutubePlayer-in-WKWebView.podspec"],
             resources: [
                 .process("WKYTPlayerView.bundle")
+                .process("PrivacyInfo.xcprivacy")
             ],
             publicHeadersPath: ".",
             cSettings: [

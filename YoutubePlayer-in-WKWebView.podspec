@@ -32,6 +32,6 @@ Pod::Spec.new do |s|
   s.requires_arc = true
 
   s.source_files = 'WKYTPlayerView'
-  s.resources = 'WKYTPlayerView/WKYTPlayerView.bundle'
+  s.resources = ['WKYTPlayerView/WKYTPlayerView.bundle', 'WKYTPlayerView/PrivacyInfo.xcprivacy']
 
 end

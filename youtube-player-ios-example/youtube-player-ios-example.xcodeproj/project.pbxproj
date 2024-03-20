@@ -46,6 +46,7 @@
 		4D69941C18E22EE10073680F /* PlaylistViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlaylistViewController.m; sourceTree = "<group>"; };
 		4D69942118E22F000073680F /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		614CB957CD094425884C83E1 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		776CAF8F2BAAD8E100ED99DF /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		77D00D6C2335D1C200FCAC78 /* custom_player.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = custom_player.html; sourceTree = "<group>"; };
 		97FE8C7A7A914485BBD9A3D4 /* libPods-youtube-player-ios-exampleTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-youtube-player-ios-exampleTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -70,6 +71,7 @@
 				101DB4CB1D031C64003FCD03 /* WKYTPlayerView.bundle */,
 				101DB4CC1D031C64003FCD03 /* WKYTPlayerView.h */,
 				101DB4CD1D031C64003FCD03 /* WKYTPlayerView.m */,
+				776CAF8F2BAAD8E100ED99DF /* PrivacyInfo.xcprivacy */,
 			);
 			name = WKYTPlayerView;
 			path = ../WKYTPlayerView;
