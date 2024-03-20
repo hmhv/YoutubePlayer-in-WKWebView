@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name              = 'YoutubePlayer-in-WKWebView'
-  s.version           = '0.3.8'
+  s.version           = '0.3.9'
   s.summary           = 'YoutubePlayer using WKWebView'
 
   s.description       = 'Helper library for iOS developers that want to embed YouTube videos in
@@ -28,7 +28,7 @@ Pod::Spec.new do |s|
   s.author             = { 'hmhv' => 'admin@hmhv.info' }
   s.source             = { :git => 'https://github.com/hmhv/YoutubePlayer-in-WKWebView.git', :tag => s.version }
 
-  s.platform     = :ios, '8.0'
+  s.platform     = :ios, '12.0'
   s.requires_arc = true
 
   s.source_files = 'WKYTPlayerView'
