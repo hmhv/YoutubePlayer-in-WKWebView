@@ -13,10 +13,9 @@ let package = Package(
         .target(
             name: "YoutubePlayer-in-WKWebView",
             path: "WKYTPlayerView",
-            //exclude: ["youtube-player-ios-example", "YoutubePlayer-in-WKWebView.podspec"],
             resources: [
-                .process("WKYTPlayerView.bundle")
-                .process("PrivacyInfo.xcprivacy")
+                .copy("WKYTPlayerView.bundle"),
+                .copy("PrivacyInfo.xcprivacy")
             ],
             publicHeadersPath: ".",
             cSettings: [
