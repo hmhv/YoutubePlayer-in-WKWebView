@@ -305,6 +305,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "youtube-player-ios-example/youtube-player-ios-example-Prefix.pch";
 				INFOPLIST_FILE = "youtube-player-ios-example/youtube-player-ios-example-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.youtube.demo.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -320,6 +321,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "youtube-player-ios-example/youtube-player-ios-example-Prefix.pch";
 				INFOPLIST_FILE = "youtube-player-ios-example/youtube-player-ios-example-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.youtube.demo.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
