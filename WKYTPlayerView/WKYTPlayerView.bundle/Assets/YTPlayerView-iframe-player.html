@@ -75,12 +75,11 @@
         window.location.href = 'ytplayer://onPlaybackQualityChange?data=' + event.data;
     }
 
-    function onPlayerError(event) {
-        if (event.data == 100) {
-            error = true;
-        }
-        window.location.href = 'ytplayer://onError?data=' + event.data;
-    }
+     function onPlayerError(event) {
+         error = true;
+         window.location.href = 'about:blank'; // Force a navigation reset
+         window.location.href = 'ytplayer://onError?data=' + event.data;
+     }
     
     window.onresize = function() {
         player.setSize(window.innerWidth, window.innerHeight);
