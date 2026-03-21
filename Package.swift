@@ -2,16 +2,17 @@
 import PackageDescription
 
 let package = Package(
-    name: "YoutubePlayer-in-WKWebView",
+    name: "YoutubePlayer_in_WKWebView",
+    platforms: [.iOS(.v12)],
     products: [
         .library(
-            name: "YoutubePlayer-in-WKWebView",
-            targets: ["YoutubePlayer-in-WKWebView"]
+            name: "YoutubePlayer_in_WKWebView",
+            targets: ["YoutubePlayer_in_WKWebView"]
         )
     ],
     targets: [
         .target(
-            name: "YoutubePlayer-in-WKWebView",
+            name: "YoutubePlayer_in_WKWebView",
             path: "WKYTPlayerView",
             resources: [
                 .copy("WKYTPlayerView.bundle"),
