@@ -1129,7 +1129,7 @@ NSString static *const kWKYTPlayerSyndicationRegexPattern = @"^https://tpc.googl
         NSString* bundleName = @"WKYTPlayerView.bundle";
         NSString* mainBundlePath = [[NSBundle bundleForClass:[WKYTPlayerView class]] resourcePath];
         #ifdef SPM_BUNDLE
-        NSString* spmBundlePath = [NSString stringWithFormat:@"YoutubePlayer-in-WKWebView_YoutubePlayer-in-WKWebView.bundle/%@", bundleName];
+        NSString* spmBundlePath = [NSString stringWithFormat:@"YoutubePlayer_in_WKWebView_YoutubePlayer_in_WKWebView.bundle/%@", bundleName];
         NSString* frameworkBundlePath = [mainBundlePath stringByAppendingPathComponent:spmBundlePath];
         frameworkBundle = [NSBundle bundleWithPath:frameworkBundlePath];
         #else
